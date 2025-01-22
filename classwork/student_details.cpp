@@ -1,53 +1,109 @@
 #include<iostream>
+#include<string.h>
 using namespace std;
 
 class student{
-    int id;
-    string name;
+    public:
+    int student_id;
+    char name[50];
     float percent;
     public:
-    void roll(){
-        cin >> id;
-    }
-    void std(){
-        getline(cin, name);
-    }
-    void per(){
-        cin >> percent;
-    }
-    void put_data(){
-        cout << "id = " << id << " name = " << name << " percent = " << percent << endl;
-    }
+        void get(){
+            cout << "Enter student id : ";
+            cin >> student_id;
+            cout << "Enter student name : ";
+            cin >> name;
+            cout << "Enter student percentage : ";
+            cin >> percent;
+        }
+        void display(){
+            cout << student_id << "\t" << name << "\t" << percent << endl;
+        }
+        void search(student s[], int& count);
 };
+
+void search(student s[], int& count){
+    int id;
+    cout << "Enter the student id : ";
+    cin >> id;
+    for(int i = 0; i < count; i++){
+        if(s[i].student_id == id){
+            cout << "Student Found!!" << endl << "What do you want to do now?" << endl << "1. Display student details" << endl << "2. Update student details" << endl << "3. Delete student details" << endl << "4. Exit" << endl;
+            int choice;
+            cout << "Enter your choice : ";
+            cin >> choice;
+            switch(choice){
+                case 1:
+                    s[i].display();
+                    break;
+                case 2:
+                    s[i].get();
+                    break;
+                case 3:
+                    for (int j = i; j < count - 1; j++) {
+                        s[j] = s[j + 1];
+                    }
+                    count--;
+                    cout << "Student deleted successfully." << endl;
+                    break;
+                case 4:
+                    cout << "Exiting" << endl;
+                    return;
+                default:
+                    cout << "Invalid choice" << endl;
+            }
+        }
+        else{
+            cout << "Student not found" << endl << "Do you want to add this id? (y/n) : ";
+            char ch;
+            cin >> ch;
+            if(ch == 'y' && count < 20){
+                s[count].get();
+                count++;
+                return;
+            }
+            else if(count == 20){
+                cout << "Maximum limit reached" << endl;
+                return;
+            }
+            else{
+                cout << "Exiting" << endl;
+                return;
+            }
+        }
+    }
+}
+
 int main(){
-    int x;
-    int i;
-    cout << "Enter the number of students: ";
-    cin >> x;
-    student s1[x];
-    cout <<"enter students detail (id-name-percent)";
-    for(int i = 0; i < x; i++){
-        s1[i].roll();
-        s1[i].std();
-        s1[i].per();
+    student s[20];
+    cout << "Welcome to the program" << endl;
+    int n, count = 0;
+    cout << "Enter the number of students : ";
+    cin >> n;
+    for(int i = 0; i < n; i++){
+        s[i].get();
+        count = count + 1;
     }
-
-    for(int i = 0; i < x; i++){
-        s1[i].put_data();
+    int choice;
+    cout << endl << "What do you want to do now?" << endl << "1. Search a student detail" << endl << "2. Display student details" << endl << "3. Exit" << endl;
+    do{
+        cout << "Enter your choice : ";
+        cin >> choice;
+        switch(choice){
+            case 1:
+                search(s, count);
+                break;
+            case 2:
+                for(int i = 0; i < count; i++){
+                    s[i].display();
+                }
+                break;
+            case 3:
+                cout << "Exiting the program" << endl;
+                return 0;
+            default:
+                cout << "Invalid choice" << endl;
+        }
     }
-    // int search;
-    // cout << "Enter id of student you want to search: ";
-    // cin >> search;
-    // do{
-    //     for(i = 0; i < x; i++){
-    //         if(search == s1[i].roll){
-    //             s1[i].put_data();
-    //         }
-    //         else{
-    //             continue;
-    //         }
-    //     }
-    // }
-    // while(i < x);
-
+    while(choice != 3);
 }
