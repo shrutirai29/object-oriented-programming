@@ -1,9 +1,8 @@
 #include<iostream>
-#include<string.h>
+//#include<string.h>
 using namespace std;
 
 class student{
-    public:
     int student_id;
     char name[50];
     float percent;
@@ -19,7 +18,8 @@ class student{
         void display(){
             cout << student_id << "\t" << name << "\t" << percent << endl;
         }
-        void search(student s[], int& count);
+        
+        friend void search(student s[], int& count);
 };
 
 void search(student s[], int& count){
